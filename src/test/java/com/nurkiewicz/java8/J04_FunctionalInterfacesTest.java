@@ -18,7 +18,6 @@ import static org.mockito.Mockito.verify;
  * Using lambdas instead of plain old Java classes (JButton)
  * - Implement functional interfaces using lambda syntax
  */
-@Ignore
 public class J04_FunctionalInterfacesTest {
 
 	private final Random random = new Random();
@@ -27,7 +26,7 @@ public class J04_FunctionalInterfacesTest {
 	public void testActionListenerLambda() {
 		//given
 		final Date dateMock = mock(Date.class);
-		final ActionListener listener = null;
+		final ActionListener listener = (ae) -> dateMock.setTime(1000L);
 
 		//when
 		listener.actionPerformed(null);
@@ -40,7 +39,7 @@ public class J04_FunctionalInterfacesTest {
 	public void testRunnableLambda() {
 		//given
 		final Date dateMock = mock(Date.class);
-		Runnable block = null;
+		Runnable block = () -> dateMock.setTime(1000L);
 
 		//when
 		block.run();
@@ -51,7 +50,7 @@ public class J04_FunctionalInterfacesTest {
 
 	@Test
 	public void testComparatorLambda() {
-		final Comparator<String> strLenComparator = null;
+		final Comparator<String> strLenComparator = (s1,s2)->s1.length()-s2.length();
 
 		assertThat(strLenComparator.compare("abc", "def")).isZero();
 		assertThat(strLenComparator.compare("abc", "defg")).isLessThan(0);
@@ -60,9 +59,9 @@ public class J04_FunctionalInterfacesTest {
 
 	@Test
 	public void testCustomFunctionalInterface() {
-		final RandomSource source = null;
+		final RandomSource source = () -> ((int) (Math.random() * 10)%2) == 0 ? -1 : 1;
 
-		Supplier<Integer> sourceSupplier = null;
+		Supplier<Integer> sourceSupplier = () -> source.oneOrMinusOne();
 
 		assertThat(source.oneOrMinusOne()).isIn(-1, 1);
 		assertThat(sourceSupplier.get()).isIn(-1, 1);

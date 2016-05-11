@@ -18,23 +18,5 @@ public class RotEncrypter implements Encrypter {
 		return result;
 	}
 
-	@Override
-	public byte[] encode(String str, Charset charset) {
-		return encode(str.getBytes(charset));
-	}
-
-	@Override
-	public byte[] encode(char[] chars, Charset charset) {
-		return encode(String.valueOf(chars), charset);
-	}
-
-	@Override
-	public byte[] encode(Reader reader, Charset charset) throws IOException {
-		return encode(IOUtils.toByteArray(reader, charset));
-	}
-
-	@Override
-	public byte[] encode(InputStream is) throws IOException {
-		return encode(IOUtils.toByteArray(is));
-	}
+	
 }

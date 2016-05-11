@@ -4,15 +4,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
+import org.apache.commons.io.IOUtils;
 
 public interface Encrypter {
 	byte[] encode(byte[] bytes);
 
-	byte[] encode(String str, Charset charset);
+	default byte[] encode(String str, Charset charset) {
+		return encode(str.getBytes(charset));
+	}
 
-	byte[] encode(char[] chars, Charset charset);
+	default byte[] encode(char[] chars, Charset charset) {
+		return encode(String.valueOf(chars), charset);
+	}
 
-	byte[] encode(Reader reader, Charset charset) throws IOException;
+	default byte[] encode(Reader reader, Charset charset) throws IOException {
+		return encode(IOUtils.toByteArray(reader, charset));
+	}
 
-	byte[] encode(InputStream is) throws IOException;
+	default byte[] encode(InputStream is) throws IOException {
+		return encode(IOUtils.toByteArray(is));
+	}
 }
